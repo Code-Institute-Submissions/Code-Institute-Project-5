@@ -15,8 +15,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('Candidates_database')
 
-sales = SHEET.worksheet('database')
-
-data = sales.get_all_values()
-
-print(data)
+if __name__ == "__main__":
+    print("This program is called 'CV generator'. It serves to create a nice looking CV to increase your"
+          "chances to find a job of your dream. The application can be used by recruiters and candidates"
+          "as well. As a recruiter you can add a new candidate, delete one or view candidates profiles."
+          "Candidates can just check their profile.")
