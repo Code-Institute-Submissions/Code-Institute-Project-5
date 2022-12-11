@@ -24,11 +24,37 @@ def isRecruiter():
     return temp
 
 
+def deleteCandidate():
+    print("List of all available candidates...")
+    worksheet = SHEET.worksheet("database")
+    candidatesList = worksheet.get_all_records()
+                
+    names = []
+    for i in range(len(candidatesList)):
+        name = candidatesList[i]["Full name"]
+        names.append(name)
+        print(name)
+
+    name = ""
+    while name not in names:
+        name = input("Choose the candidate you want to delete: ")
+        name = name.title()
+                
+    print("Deleting the candidate from the database...")
+
+    for i in range(len(candidatesList)):
+        if name == candidatesList[i]["Full name"]:
+            worksheet.delete_row(i+2)
+            break
+
+
 def addNewCandidate():
     while True:
         contacts = input("Could you please tell us your contact data? (Press q to exit)\n"
                          "Example: Full name, Role, Address, Phone number, Email, Languages you "
                          "speak, Your skills, Your hobbies\n")
+
+        education = input("Please tell us something about your education\n")
 
         if contacts == "q":
             print("Failed to add a new candidate...")
@@ -67,7 +93,9 @@ if __name__ == "__main__":
                 choice = choice.lower()
             
             if choice == "delete":
-                pass
+                # Delete existing candidate from the database
+                print("Deleting the candidate...")
+                deleteCandidate()
 
             elif choice == "add":
                 # Add new candidate to the database
