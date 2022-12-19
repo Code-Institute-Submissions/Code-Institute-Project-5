@@ -20,16 +20,22 @@ SHEET = GSPREAD_CLIENT.open("Candidates_database")
 
 
 def isRecruiter():
+    """
+    This function checks if you are a recruiter.
+    """
     temp = ""
     while temp != "recruiter" and temp != "candidate" and temp != "q":
         temp = input(
-            "Please tell us if you are a recruiter or a candidate (Press q to exit): "
+            "Please tell us if you are a recruiter or a candidate (Press q to exit):\n"
         )
         temp = temp.lower()
     return temp
 
 
 def getNames(worksheet):
+    """
+    This function loads names from google sheets.
+    """
     names = []
     candidates = worksheet.get_all_records()
 
@@ -40,6 +46,9 @@ def getNames(worksheet):
 
 
 def getName(names):
+    """
+    This function checks if name is in the list.
+    """
     name = ""
     while name not in names:
         if name == "Q":
@@ -49,13 +58,30 @@ def getName(names):
             print("There is no candidate in the list...")
             break
 
-        name = input("Choose a candidate (Press q to exit): ")
+        name = input("Choose a candidate (Press q to exit):\n")
         name = name.title()
 
     return name
 
 
+def checkValue(value):
+    """
+    This function checks if value is empty string.
+    """
+    try:
+        if len(value) == 0:
+            raise ValueError("Empty string")
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again!")
+        return False
+
+    return True
+
+
 def deleteCandidate():
+    """
+    This function delete a candidate from google sheets.
+    """
     worksheet = SHEET.worksheet("database")
     CandidatesNames = getNames(worksheet)
 
@@ -73,59 +99,101 @@ def deleteCandidate():
 
 def addNewCandidate():
     """
-    This function add a new candidate to google sheets. If you don't want to
-    tell us some of your data just skeep it pressing enter.
+    This function add a new candidate to google sheets.
     """
     CandidateData = []
-    print("First of all we want to know your contact data. "
-    "If you want to skeep something just press enter")
+    print("First of all we want to know your contact data.")
 
-    FullName = input("Please give us your full name:\n")
-    CandidateData.append(FullName)
+    while True:
+        FullName = input("Please give us your full name:\n")
+        if checkValue(FullName):
+            CandidateData.append(FullName)
+            break
 
-    Role = input("Which open position are you looking for?\n")
-    CandidateData.append(Role)
+    while True:
+        Role = input("Which open position are you looking for?\n")
+        if checkValue(Role):
+            CandidateData.append(Role)
+            break
 
-    Address = input("Could you please tell us your location?\n")
-    CandidateData.append(Address)
+    while True:
+        Address = input("Could you please tell us your location?\n")
+        if checkValue(Address):
+            CandidateData.append(Address)
+            break
 
-    Phone = input("Your phone number:\n")
-    CandidateData.append(Phone)
+    while True:
+        Phone = input("Your phone number:\n")
+        if checkValue(Phone):
+            CandidateData.append(Phone)
+            break
 
-    Email = input("Your email:\n")
-    CandidateData.append(Email)
+    while True:
+        Email = input("Your email:\n")
+        if checkValue(Email):
+            CandidateData.append(Email)
+            break
 
-    Languages = input("Which languages are you speaking?\n")
-    CandidateData.append(Languages)
+    while True:
+        Languages = input("Which languages are you speaking?\n")
+        if checkValue(Languages):
+            CandidateData.append(Languages)
+            break
 
-    Skills = input("Tell us more about your skills:\n")
-    CandidateData.append(Skills)
+    while True:
+        Skills = input("Tell us more about your skills:\n")
+        if checkValue(Skills):
+            CandidateData.append(Skills)
+            break
 
-    Software = input("Which PC Software are you using?\n")
-    CandidateData.append(Software)
+    while True:
+        Software = input("Which PC Software are you using?\n")
+        if checkValue(Software):
+            CandidateData.append(Software)
+            break
 
-    Equipment = input("Which lab equipment are you frequently using?\n")
-    CandidateData.append(Equipment)
+    while True:
+        Equipment = input("Which lab equipment are you frequently using?\n")
+        if checkValue(Equipment):
+            CandidateData.append(Equipment)
+            break
 
-    Hobbies = input("Tell us something about your hobbies:\n")
-    CandidateData.append(Hobbies)
+    while True:
+        Hobbies = input("Tell us something about your hobbies:\n")
+        if checkValue(Hobbies):
+            CandidateData.append(Hobbies)
+            break
 
-    Introduction = input()
-    CandidateData.append(Introduction)
+    print("\n")
+    print("Please share some data for the main part of CV\n")
 
-    WorkHistory = input()
-    CandidateData.append(WorkHistory)
+    while True:
+        Introduction = input("Give introduction to the main part of CV:\n")
+        if checkValue(Introduction):
+            CandidateData.append(Introduction)
+            break
 
-    Education = input()
-    CandidateData.append(Education)
+    while True:
+        WorkHistory = input("Tell us more about your experience:\n")
+        if checkValue(WorkHistory):
+            CandidateData.append(WorkHistory)
+            break
 
-    #worksheet = SHEET.worksheet("database")
-    #worksheet.append_row(CandidateData)
-    print(CandidateData)
+    while True:
+        Education = input("Where did you study?\n")
+        if checkValue(Education):
+            CandidateData.append(Education)
+            break
+
+    worksheet = SHEET.worksheet("database")
+    worksheet.append_row(CandidateData)
     print("New candidate was added!")
 
 
 def PrintCV(role):
+    """
+    This function prints your CV based on data from google sheets.
+    """
     worksheet = SHEET.worksheet("database")
     CandidatesNames = getNames(worksheet)
 
@@ -139,10 +207,11 @@ def PrintCV(role):
     else:
         CandidateName = ""
         while CandidateName == "" and CandidateName != "Q":
-            CandidateName = input("Your name (Press q to exit): ")
+            CandidateName = input("Your name (Press q to exit):\n")
             CandidateName = CandidateName.title()
 
     if CandidateName not in CandidatesNames:
+        print("Your name is not in the database, but you can add a new candidate")
         addNewCandidate()
     else:
         if CandidateName != "Q":
@@ -238,7 +307,7 @@ if __name__ == "__main__":
             choice = ""
             while choice != "delete" and choice != "add" and choice != "load":
                 choice = input(
-                    "Delete a candidate, add a new one to the list or load existing profiles [delete/add/load]: "
+                    "Delete a candidate, add a new one to the list or load existing profiles [delete/add/load]:\n"
                 )
                 choice = choice.lower()
 
