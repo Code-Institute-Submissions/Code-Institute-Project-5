@@ -209,9 +209,10 @@ def PrintCV(role):
         while CandidateName == "" and CandidateName != "Q":
             CandidateName = input("Your name (Press q to exit):\n")
             CandidateName = CandidateName.title()
+            os.system("clear")
 
     if CandidateName not in CandidatesNames:
-        print("Your name is not in the database, but you can add a new candidate")
+        print("Your name is not in the database, but you can add yourself")
         addNewCandidate()
     else:
         if CandidateName != "Q":
