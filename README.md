@@ -3,6 +3,12 @@ HR Helper is an easy program that helps managers and candidates create and view 
 - Managers can create, veiw and load existing CV.
 - Candidates can load their CV, if it doesn't exist they can add a new one to the database.
 
+<p align="center">
+  <img width="100%" src="img/main.png">
+</p>
+
+[Link to the application](https://hr-helper.herokuapp.com/)
+
 ## App intentions
 Create an application that simplify HR manager daily routine.
 
